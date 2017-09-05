@@ -25,8 +25,6 @@
 
 function merge_elems(&$accum,$latest)
 {
-	// elem will be the decoded varsion of something like this
-	// {"mac":"xx:xx:xx:xx:xx:xx","ip":"","ip6":"2001:bb6:5e02:ef00:4df7:4c32:a9ed:9de7,2001:bb6:5e02:ef00:e4b6:cff6:d20a:49,2001:bb6:5e02:ef00:7952:e65e:4435:5403,2001:bb6:5e02:ef00:e9c5:9c62:78a3:1578,2001:bb6:5e02:ef00:20f5:7a6:1d03:f17,2001:bb6:5e02:ef00:6cc3:90ac:adbe:b105,fe80::c8cd:51ae:81ba:421c,2001:bb6:5e02:ef00:68ab:3c9a:eec1:2d26,2001:bb6:5e02:ef00:9ce9:adf0:c1ff:83ea","owner":"Unknown","name":"newhp","colour":"","added":"2017-09-05 19:33:27","updated":"2017-09-05 19:33:27","last-seen":"2017-09-05 19:33:27"}
 	// return the best of both, where the MACs are the same
 	if ($accum['mac']!=$latest['mac']) return(1); 
 	if ($latest['ip']!="" && $accum['ip']!=$latest['ip']) {
@@ -117,10 +115,13 @@ function shrinkusers($file)
 		$lc++;
 		$line=fgets($fp);
 	}
-	print "read $lc lines\n";
+	//print "read $lc lines\n";
 	fclose($fp);
 	// print out $set
-	var_dump($set);
+	//var_dump($set);
+	foreach($set as $elem) {
+		print "ud_a(" . json_encode($elem) . ")\n";
+	}
 	return(0);
 }
 
@@ -141,6 +142,6 @@ if ($rv!=0) {
 	print "shrinkusers($ufile) returned $rv. Bummer.\n";
 	exit(3);
 }
-print "shrinkusers($ufile) worked (I think:-)\n";
+//print "shrinkusers($ufile) worked (I think:-)\n";
 
 ?>
