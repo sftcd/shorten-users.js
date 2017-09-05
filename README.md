@@ -1,4 +1,4 @@
-# fixusers.js
+# shorten user.js
 
 [YAMon3](http://usage-monitoring.com/index.php) is a nice device and bandwidth
 monitoring tool for OpenWRT and similar operating systems. It works based on
