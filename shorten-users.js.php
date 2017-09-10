@@ -85,12 +85,35 @@ function accumulate(&$set,$elem)
 		// add to end
 		$set[]=$elem;
 	}
-
-
 	return(0);
 }
 
-function shrinkusers($file)
+function readmacs($macs)
+{
+	$fp=fopen($macs,"r");
+	if ($fp===false) return(-1);
+	$lmacs=array();
+	while (($foo=fgetcsv($fp))!==false) {
+		$lmacs[]=$foo;
+	}
+	fclose($fp);
+	return($lmacs);
+}
+
+function fixnames($set,$macs)
+{
+	foreach($set as $elem){
+		foreach($macs as $thismac){
+			if ($elem['mac']==$thismac[0]) {
+				$elem['name']=$thismac[1];
+				$elem['owner']=$thismac[2];
+			}
+		}
+	}
+	return(0);
+}
+
+function shrinkusers($file,$macs)
 {
 	$set=array();
 	$fp=fopen($file,"r");
@@ -117,6 +140,9 @@ function shrinkusers($file)
 	}
 	//print "read $lc lines\n";
 	fclose($fp);
+
+	// fix up names
+	$rv=fixnames($set,$macs);
 	// print out $set
 	//var_dump($set);
 	foreach($set as $elem) {
@@ -125,9 +151,10 @@ function shrinkusers($file)
 	return(0);
 }
 
-if ($argc!=2) {
-	print "usage: $argv[0] <users.js>\n";
-	print "\toutput is shrunken version of same\n";
+if ($argc!=2 && $argv!=3) {
+	print "usage: $argv[0] <users.js> [<known-macs-file>]\n";
+	print "\toutput is shrunken version of input users.js\n";
+	print "\tknown-macs-file is used to force some names (default macs.csv)\n";
 	exit(1);
 }
 
@@ -136,8 +163,17 @@ if (!file_exists($ufile)) {
 	print "Can't read $ufile dude, try again\n";
 	exit(2);
 }
+$mfile="macs.csv";
+if ($argc==3 && file_exists($argv[2])){
+	$mfile=$argv[2];
+}
 
-$rv=shrinkusers($ufile);
+$macs=readmacs($mfile);
+if ($macs===-1) {
+	print "//Error reading known macs/names\n";
+}
+
+$rv=shrinkusers($ufile,$macs);
 if ($rv!=0) {
 	print "shrinkusers($ufile) returned $rv. Bummer.\n";
 	exit(3);

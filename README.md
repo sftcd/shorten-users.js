@@ -20,6 +20,11 @@ LocalStorage in the browser(s) with which you use YAMon3. That can cause some
 confusion, though there is a way to import/export that from LocalStorage to
 disk (via the tool's JS).
 
+In order to handle already known MACs (e.g. from a previous version of a
+users.js file) you can use a CSV file of MACs and names. See macs-example.csv
+for an example. Any MAC in that file (default name macs.txt) will have the
+name and class from macs.csv forced into the output users.js.
+
 I'll likely have to play with how to get the abbreviated/fix user.js into use
 effectively.
 

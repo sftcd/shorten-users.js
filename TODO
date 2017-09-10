@@ -1,5 +1,5 @@
 
-- add a "stable mac -> name,class" mapping file
+DONE - add a "stable mac -> name,class" mapping file
 - add a "only include most recent N addresses" option
 
 - test it
